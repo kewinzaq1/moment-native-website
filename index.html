@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Moment - Start your 1-minute truth</title>
+    <meta
+      name="description"
+      content="Moment is a one-minute intention interrupt. Set one intention, get reminded throughout the day, and return to your body before autopilot takes over."
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #151515;
+        --muted: #62615e;
+        --paper: #fbfaf6;
+        --surface: #ffffff;
+        --line: #dedbd3;
+        --red: #d85a42;
+        --green: #147b5d;
+        --blue: #2d5f8f;
+        --gold: #b68a1f;
+        --shadow: 0 22px 70px rgba(24, 22, 18, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        line-height: 1.5;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .site-shell {
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .nav {
+        position: fixed;
+        z-index: 50;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px clamp(18px, 4vw, 52px);
+        background: rgba(251, 250, 246, 0.82);
+        border-bottom: 1px solid rgba(222, 219, 211, 0.72);
+        backdrop-filter: blur(18px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 760;
+        letter-spacing: 0;
+      }
+
+      .mark {
+        width: 30px;
+        height: 30px;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+      }
+
+      .mark::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--red);
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .nav .button {
+        color: #fff;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: clamp(12px, 3vw, 28px);
+      }
+
+      .button {
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: #fff;
+        border-radius: 999px;
+        padding: 9px 16px;
+        font-weight: 720;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        transition:
+          transform 180ms ease,
+          background 180ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+        background: #000;
+      }
+
+      .button[aria-disabled="true"] {
+        pointer-events: none;
+        opacity: 0.56;
+      }
+
+      .button.secondary {
+        background: transparent;
+        color: var(--ink);
+      }
+
+      main {
+        padding-top: 68px;
+      }
+
+      section {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .inner {
+        width: min(1180px, calc(100% - 36px));
+        margin: 0 auto;
+      }
+
+      .hero {
+        min-height: calc(100svh - 104px);
+        overflow: hidden;
+        display: grid;
+        align-items: center;
+        position: relative;
+        isolation: isolate;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        background:
+          linear-gradient(120deg, rgba(216, 90, 66, 0.14), transparent 32%),
+          linear-gradient(280deg, rgba(45, 95, 143, 0.16), transparent 38%),
+          linear-gradient(180deg, rgba(20, 123, 93, 0.08), transparent 62%);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+        gap: clamp(26px, 5vw, 74px);
+        align-items: center;
+        padding: 24px 0 20px;
+      }
+
+      .eyebrow {
+        margin: 0 0 18px;
+        color: var(--green);
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        font-weight: 820;
+        letter-spacing: 0.12em;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        font-size: clamp(3.05rem, 6.4vw, 5.85rem);
+        line-height: 0.88;
+        letter-spacing: 0;
+        margin-bottom: 24px;
+        max-width: 780px;
+      }
+
+      .lead {
+        max-width: 650px;
+        color: #2e2c28;
+        font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+        line-height: 1.34;
+        margin-bottom: 30px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .aside-note {
+        margin-top: 20px;
+        max-width: 520px;
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+
+      .phone-stage {
+        min-height: 430px;
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+
+      .phone-shadow {
+        position: absolute;
+        width: min(84%, 410px);
+        height: 34px;
+        bottom: 42px;
+        border-radius: 999px;
+        background: rgba(20, 18, 14, 0.18);
+        filter: blur(22px);
+      }
+
+      .phone {
+        width: min(86vw, 266px);
+        aspect-ratio: 9 / 18.6;
+        border: 11px solid #111;
+        border-radius: 42px;
+        background: #f2f0e8;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .phone::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 96px;
+        height: 25px;
+        border-radius: 999px;
+        background: #111;
+        z-index: 5;
+      }
+
+      .lockscreen {
+        position: absolute;
+        inset: 0;
+        padding: 56px 24px 24px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 25% 12%, rgba(216, 90, 66, 0.24), transparent 24%),
+          radial-gradient(circle at 80% 8%, rgba(45, 95, 143, 0.22), transparent 27%),
+          linear-gradient(180deg, #f8f5ec, #e8e2d2 52%, #d8e2d8);
+      }
+
+      .time {
+        text-align: center;
+        font-size: 3.55rem;
+        line-height: 1;
+        font-weight: 790;
+        letter-spacing: 0;
+      }
+
+      .date {
+        text-align: center;
+        color: #5c5951;
+        font-size: 0.86rem;
+        margin-top: 6px;
+      }
+
+      .intention-card {
+        margin-top: auto;
+        border-radius: 28px;
+        background:
+          linear-gradient(150deg, rgba(255, 255, 255, 0.94), rgba(246, 250, 246, 0.88));
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        padding: 18px;
+        backdrop-filter: blur(14px);
+        box-shadow: 0 16px 44px rgba(30, 27, 21, 0.14);
+      }
+
+      .intention-card small {
+        display: block;
+        color: var(--muted);
+        font-weight: 760;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.68rem;
+        margin-bottom: 10px;
+      }
+
+      .intention-card strong {
+        display: block;
+        font-size: 1.08rem;
+        line-height: 1.2;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-break: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        max-height: 2.4em;
+        overflow: hidden;
+      }
+
+      .minute-widget {
+        margin-top: 14px;
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        gap: 14px;
+        align-items: center;
+      }
+
+      .breath-orbit {
+        width: 86px;
+        height: 86px;
+        border: 1px solid rgba(21, 21, 21, 0.18);
+        border-radius: 22px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .breath-dot {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--green);
+        animation: boxBreath 16s infinite ease-in-out;
+        box-shadow: 0 0 14px rgba(20, 123, 93, 0.28);
+      }
+
+      @keyframes boxBreath {
+        0%,
+        100% {
+          transform: scale(0.72);
+          background: var(--blue);
+        }
+        25% {
+          transform: scale(1.45);
+          background: var(--green);
+        }
+        50% {
+          transform: scale(1.45);
+          background: var(--gold);
+        }
+        75% {
+          transform: scale(0.72);
+          background: var(--red);
+        }
+      }
+
+      .minute-widget p {
+        margin: 0;
+        font-weight: 720;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-break: normal;
+        font-size: 0.9rem;
+        line-height: 1.22;
+      }
+
+      .minute-widget span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-top: 3px;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-break: normal;
+      }
+
+      .band {
+        padding: clamp(72px, 10vw, 128px) 0;
+      }
+
+      #not.band {
+        padding-top: 24px;
+      }
+
+      .section-head {
+        max-width: 780px;
+        margin-bottom: 38px;
+      }
+
+      h2 {
+        font-size: clamp(2.3rem, 5vw, 4.8rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+        margin-bottom: 18px;
+      }
+
+      .section-head p {
+        color: var(--muted);
+        font-size: clamp(1.05rem, 1.8vw, 1.26rem);
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+
+      .panel {
+        background: var(--paper);
+        padding: clamp(24px, 4vw, 42px);
+        min-height: 300px;
+      }
+
+      .panel h3 {
+        font-size: clamp(1.35rem, 2.1vw, 2rem);
+        line-height: 1.08;
+        margin-bottom: 18px;
+      }
+
+      .panel p {
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+
+      .no-list,
+      .yes-list {
+        list-style: none;
+        padding: 0;
+        margin: 24px 0 0;
+        display: grid;
+        gap: 13px;
+      }
+
+      .no-list li,
+      .yes-list li {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 12px;
+        align-items: start;
+        color: #2f2d29;
+      }
+
+      .symbol {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #fff;
+        font-weight: 850;
+        line-height: 1;
+      }
+
+      .no-list .symbol {
+        background: var(--red);
+      }
+
+      .yes-list .symbol {
+        background: var(--green);
+      }
+
+      .manifesto {
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .manifesto .section-head p,
+      .manifesto .kicker {
+        color: rgba(255, 255, 255, 0.72);
+      }
+
+      .truth-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .truth {
+        padding: clamp(22px, 3vw, 32px);
+        background: var(--ink);
+      }
+
+      .truth span {
+        display: block;
+        color: #f2b8a8;
+        font-size: 0.8rem;
+        font-weight: 820;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 12px;
+      }
+
+      .truth p {
+        margin: 0;
+        font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+        line-height: 1.22;
+      }
+
+      .spiral-copy {
+        max-width: 900px;
+        font-size: clamp(1.8rem, 4.5vw, 4.6rem);
+        line-height: 1;
+        letter-spacing: 0;
+        margin: 0;
+      }
+
+      .spiral-copy strong {
+        color: var(--red);
+      }
+
+      .product-strip {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: clamp(28px, 5vw, 70px);
+        align-items: start;
+      }
+
+      .steps {
+        display: grid;
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 74px 1fr;
+        gap: 18px;
+        padding: 24px;
+        background: var(--surface);
+      }
+
+      .step-number {
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        background: #e5efe9;
+        color: var(--green);
+        font-weight: 850;
+      }
+
+      .step h3 {
+        margin-bottom: 6px;
+        font-size: 1.2rem;
+      }
+
+      .step p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .architecture {
+        background: #f2f0e8;
+      }
+
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .stack-item {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        padding: 26px;
+        border-radius: 8px;
+        min-height: 190px;
+      }
+
+      .stack-item h3 {
+        font-size: 1.16rem;
+        margin-bottom: 10px;
+      }
+
+      .stack-item p {
+        color: var(--muted);
+        margin-bottom: 0;
+      }
+
+      .quote-band {
+        padding: clamp(72px, 10vw, 112px) 0;
+      }
+
+      .quote {
+        font-size: clamp(2rem, 5.5vw, 5.8rem);
+        line-height: 0.96;
+        letter-spacing: 0;
+        max-width: 1060px;
+        margin: 0;
+      }
+
+      .quote em {
+        font-style: normal;
+        color: var(--blue);
+      }
+
+      .faq {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1px;
+        background: var(--line);
+        border: 1px solid var(--line);
+      }
+
+      .faq article {
+        background: var(--paper);
+        padding: clamp(24px, 4vw, 38px);
+      }
+
+      .faq h3 {
+        font-size: 1.22rem;
+        margin-bottom: 10px;
+      }
+
+      .faq p {
+        color: var(--muted);
+        margin: 0;
+      }
+
+      .final {
+        min-height: 76vh;
+        display: grid;
+        align-items: center;
+        background:
+          linear-gradient(120deg, rgba(20, 123, 93, 0.12), transparent 40%),
+          linear-gradient(300deg, rgba(216, 90, 66, 0.14), transparent 38%),
+          var(--paper);
+      }
+
+      .final h2 {
+        max-width: 880px;
+      }
+
+      .final p {
+        max-width: 620px;
+        color: var(--muted);
+        font-size: 1.2rem;
+      }
+
+      footer {
+        padding: 28px clamp(18px, 4vw, 52px);
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .modal-shell {
+        position: fixed;
+        inset: 0;
+        z-index: 120;
+        display: none;
+        place-items: center;
+        padding: 18px;
+      }
+
+      .modal-shell.open {
+        display: grid;
+      }
+
+      .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 10, 10, 0.4);
+        backdrop-filter: blur(6px);
+      }
+
+      .platform-modal {
+        position: relative;
+        width: min(560px, 100%);
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        box-shadow: 0 28px 82px rgba(20, 18, 16, 0.26);
+        padding: 22px;
+      }
+
+      .platform-modal header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .platform-modal h3 {
+        margin: 0;
+        font-size: 1.35rem;
+        line-height: 1.12;
+      }
+
+      .platform-modal p {
+        margin: 8px 0 0;
+        color: var(--muted);
+      }
+
+      .modal-close {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        border-radius: 10px;
+        min-width: 38px;
+        min-height: 38px;
+        font-weight: 760;
+      }
+
+      .platform-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .platform-option {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        background: #fff;
+        text-align: left;
+        min-height: 108px;
+        display: grid;
+        align-content: space-between;
+        text-decoration: none;
+      }
+
+      .platform-option strong {
+        font-size: 1.02rem;
+      }
+
+      .platform-option span {
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      .platform-option:hover {
+        border-color: #b7c9be;
+        transform: translateY(-1px);
+      }
+
+      .platform-option.disabled {
+        background: #f4f1ea;
+        border-style: dashed;
+        color: #8e877c;
+        cursor: not-allowed;
+      }
+
+      @media (max-width: 920px) {
+        .hero-grid,
+        .product-strip,
+        .split {
+          grid-template-columns: 1fr;
+        }
+
+        .truth-grid,
+        .stack-grid,
+        .faq,
+        .platform-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .phone-stage {
+          min-height: 420px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        main {
+          padding-top: 58px;
+        }
+
+        .nav {
+          padding-top: 8px;
+          padding-bottom: 8px;
+        }
+
+        .nav-links a:not(.button) {
+          display: none;
+        }
+
+        .hero {
+          min-height: calc(100svh - 110px);
+        }
+
+        .hero-grid {
+          position: relative;
+          padding-top: 26px;
+          padding-bottom: 24px;
+          gap: 12px;
+          isolation: isolate;
+        }
+
+        h1 {
+          font-size: clamp(2.85rem, 13vw, 4.15rem);
+          margin-bottom: 16px;
+        }
+
+        .lead {
+          font-size: 1.04rem;
+          margin-bottom: 18px;
+        }
+
+        .aside-note {
+          display: none;
+        }
+
+        .truth-grid,
+        .stack-grid,
+        .faq,
+        .platform-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .step {
+          grid-template-columns: 1fr;
+        }
+
+        .phone {
+          width: min(58vw, 226px);
+          border-width: 7px;
+          border-radius: 30px;
+        }
+
+        .phone::before {
+          width: 62px;
+          height: 16px;
+          top: 7px;
+        }
+
+        .phone-stage {
+          position: absolute;
+          right: -92px;
+          bottom: -96px;
+          z-index: -1;
+          min-height: 0;
+          place-items: start end;
+          opacity: 0.16;
+        }
+
+        .time {
+          font-size: 2.2rem;
+        }
+
+        .lockscreen {
+          padding: 36px 14px 14px;
+        }
+
+        .date {
+          font-size: 0.7rem;
+        }
+
+        .intention-card {
+          border-radius: 18px;
+          padding: 12px;
+        }
+
+        .intention-card small {
+          font-size: 0.55rem;
+          margin-bottom: 6px;
+        }
+
+        .intention-card strong {
+          font-size: 0.88rem;
+          line-height: 1.2;
+          -webkit-line-clamp: 2;
+          max-height: 2.4em;
+        }
+
+        .minute-widget {
+          grid-template-columns: 52px 1fr;
+          gap: 9px;
+          margin-top: 10px;
+        }
+
+        .breath-orbit {
+          width: 52px;
+          height: 52px;
+          border-radius: 14px;
+        }
+
+        .breath-dot {
+          width: 18px;
+          height: 18px;
+        }
+
+        .minute-widget p {
+          font-size: 0.76rem;
+          line-height: 1.16;
+        }
+
+        .minute-widget span {
+          font-size: 0.67rem;
+        }
+
+        footer {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-shell">
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="Moment home">
+          <span class="mark" aria-hidden="true"></span>
+          <span>Moment</span>
+        </a>
+        <div class="nav-links">
+          <a href="#stands-for">Stands for</a>
+          <a href="#app">The app</a>
+          <a class="button js-start-minute" href="#start">Start your minute</a>
+        </div>
+      </nav>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="inner hero-grid">
+            <div>
+              <p class="eyebrow">Start your 1-minute truth</p>
+              <h1 id="hero-title">The minute that interrupts the spiral.</h1>
+              <p class="lead">
+                Moment is not here to teach you another technique. It helps you remember the
+                intention you already set, then gives you one minute to return to your body before
+                autopilot takes the wheel.
+              </p>
+              <div class="hero-actions">
+                <a class="button js-start-minute" href="#start">Start your first minute</a>
+                <a class="button secondary" href="#not">What it is not</a>
+              </div>
+              <p class="aside-note">
+                One intention. One breathing pattern. No library, no badges, no feed, no self-help
+                theater.
+              </p>
+            </div>
+
+            <div class="phone-stage" aria-label="Moment app preview">
+              <div class="phone-shadow" aria-hidden="true"></div>
+              <div class="phone">
+                <div class="lockscreen">
+                  <div class="time" id="time">08:17</div>
+                  <div class="date">Wednesday - before the scroll</div>
+                  <div class="intention-card">
+                    <small>Today's intention</small>
+                    <strong>Protect my focus before I scroll.</strong>
+                    <div class="minute-widget">
+                      <div class="breath-orbit" aria-hidden="true">
+                        <div class="breath-dot"></div>
+                      </div>
+                      <p>
+                        Box breathing
+                        <span id="breath-label">Inhale</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="band" id="not" aria-labelledby="not-title">
+          <div class="inner">
+            <div class="section-head">
+              <p class="eyebrow">What Moment is not</p>
+              <h2 id="not-title">Not another place to hide from the work.</h2>
+              <p>
+                Most wellness software gives you more to consume. More modes. More charts. More
+                content about becoming the person you keep postponing. Moment goes the other way.
+              </p>
+            </div>
+
+            <div class="split">
+              <article class="panel">
+                <h3>It will never become this.</h3>
+                <p>
+                  Because every extra feature is another door out of the one thing you came here to
+                  do.
+                </p>
+                <ul class="no-list">
+                  <li><span class="symbol">x</span><span>A meditation library</span></li>
+                  <li><span class="symbol">x</span><span>A productivity suite</span></li>
+                  <li><span class="symbol">x</span><span>A streak machine</span></li>
+                  <li><span class="symbol">x</span><span>A social platform for growth content</span></li>
+                </ul>
+              </article>
+
+              <article class="panel">
+                <h3>It exists for one interrupt.</h3>
+                <p>
+                  You set the truth you want to remember. Moment brings it back into view. Then you
+                  breathe for one minute and decide again.
+                </p>
+                <ul class="yes-list">
+                  <li><span class="symbol">+</span><span>One daily intention</span></li>
+                  <li><span class="symbol">+</span><span>Simple reminders during the day</span></li>
+                  <li><span class="symbol">+</span><span>One box-breathing minute</span></li>
+                  <li><span class="symbol">+</span><span>No tracking by default</span></li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="band manifesto" id="stands-for" aria-labelledby="stands-title">
+          <div class="inner">
+            <div class="section-head">
+              <p class="eyebrow">What Moment stands for</p>
+              <h2 id="stands-title">You do not need more information. You need contact.</h2>
+              <p>
+                You already know the basics. Sleep matters. Walking helps. Scrolling drains you.
+                Food changes your mood. People matter. Books beat reels. Knowing is not the
+                bottleneck anymore.
+              </p>
+            </div>
+
+            <div class="truth-grid">
+              <article class="truth">
+                <span>01</span>
+                <p>Your intention should be visible before your habits get a vote.</p>
+              </article>
+              <article class="truth">
+                <span>02</span>
+                <p>The body is the fastest way back into the present.</p>
+              </article>
+              <article class="truth">
+                <span>03</span>
+                <p>One minute is honest because it gives you no room for excuses.</p>
+              </article>
+              <article class="truth">
+                <span>04</span>
+                <p>Simplicity is not a missing roadmap. It is the product.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="quote-band" aria-label="The spiral">
+          <div class="inner">
+            <p class="spiral-copy">
+              Wake up. Check phone. Numb out. Promise yourself you will stop.
+              <strong>You do not.</strong> Moment is the pause before the pattern becomes the day.
+            </p>
+          </div>
+        </section>
+
+        <section class="band" id="app" aria-labelledby="app-title">
+          <div class="inner product-strip">
+            <div class="section-head">
+              <p class="eyebrow">The super-simple app</p>
+              <h2 id="app-title">A tiny tool with almost nowhere to escape.</h2>
+              <p>
+                The first app should feel more like a pocket bell than software. Open it, see the
+                truth, breathe, leave.
+              </p>
+            </div>
+
+            <div class="steps" aria-label="Moment app flow">
+              <article class="step">
+                <div class="step-number">1</div>
+                <div>
+                  <h3>Set one intention</h3>
+                  <p>Plain text only. No templates necessary. The user names what they want to remember.</p>
+                </div>
+              </article>
+              <article class="step">
+                <div class="step-number">2</div>
+                <div>
+                  <h3>Choose reminder rhythm</h3>
+                  <p>Light, steady, or relentless. Quiet hours are respected. Everything runs locally first.</p>
+                </div>
+              </article>
+              <article class="step">
+                <div class="step-number">3</div>
+                <div>
+                  <h3>Take the minute</h3>
+                  <p>Box breathing: inhale, hold, exhale, hold. Four rounds. No course. No choice overload.</p>
+                </div>
+              </article>
+              <article class="step">
+                <div class="step-number">4</div>
+                <div>
+                  <h3>Return to the day</h3>
+                  <p>A clean ending. Maybe one small note. No streak pressure. The point is remembering.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="band" aria-labelledby="faq-title">
+          <div class="inner">
+            <div class="section-head">
+              <p class="eyebrow">Honest answers</p>
+              <h2 id="faq-title">Small on purpose.</h2>
+            </div>
+
+            <div class="faq">
+              <article>
+                <h3>Why only one technique?</h3>
+                <p>
+                  Because choosing a method can become another delay. Box breathing is simple enough
+                  to remember when your attention is already compromised.
+                </p>
+              </article>
+              <article>
+                <h3>Why only one minute?</h3>
+                <p>
+                  Because the first win is interruption. If one minute cannot make contact, twenty
+                  minutes usually becomes another performance.
+                </p>
+              </article>
+              <article>
+                <h3>Will it track me?</h3>
+                <p>
+                  Not by default. Moment can work without an account, without analytics, and without
+                  needing to know who you are.
+                </p>
+              </article>
+              <article>
+                <h3>What happens after the minute?</h3>
+                <p>
+                  You leave. That is the point. Moment should send you back into your life, not hold
+                  you inside another app.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="final" id="start" aria-labelledby="start-title">
+          <div class="inner">
+            <p class="eyebrow">Moment</p>
+            <h2 id="start-title">You already know what to do. You just keep forgetting.</h2>
+            <p>
+              Set the intention. See it when the phone pulls you in. Take one minute. Come back.
+            </p>
+            <a class="button js-start-minute" href="#top">Start your 1-minute truth</a>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>Made in San Francisco by Kewin.</span>
+        <span>One intention. One minute. Back to life.</span>
+      </footer>
+    </div>
+
+    <div class="modal-shell" id="platformModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal="true"></div>
+      <div class="platform-modal" role="dialog" aria-modal="true" aria-labelledby="platformTitle">
+        <header>
+          <div>
+            <h3 id="platformTitle">Choose your platform</h3>
+            <p>Pick where you want to start your minute.</p>
+          </div>
+          <button class="modal-close" id="closePlatformModal" type="button" aria-label="Close">×</button>
+        </header>
+        <div class="platform-grid">
+          <a class="platform-option" href="https://moment-native.vercel.app/" target="_blank" rel="noreferrer">
+            <strong>Web</strong>
+            <span>Open live web app</span>
+          </a>
+          <a
+            class="platform-option"
+            href="https://drive.google.com/drive/folders/1m7UR3YCWs2UzCmJr7zM_gqgN5qQbhHy4?usp=sharing"
+            target="_blank"
+            rel="noreferrer"
+            id="androidOption"
+          >
+            <strong>Android</strong>
+            <span>Download from Google Drive</span>
+          </a>
+          <button class="platform-option disabled" type="button" aria-disabled="true">
+            <strong>iOS</strong>
+            <span>Available soon</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const timeEl = document.querySelector("#time");
+      const breathLabel = document.querySelector("#breath-label");
+      const phases = ["Inhale", "Hold", "Exhale", "Hold"];
+      const startMinuteButtons = document.querySelectorAll(".js-start-minute");
+      const modal = document.querySelector("#platformModal");
+      const closeModalButton = document.querySelector("#closePlatformModal");
+      const androidOption = document.querySelector("#androidOption");
+
+      function updateTime() {
+        const now = new Date();
+        timeEl.textContent = now.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      function updateBreathLabel() {
+        const phase = Math.floor((Date.now() / 4000) % phases.length);
+        breathLabel.textContent = phases[phase];
+      }
+
+      updateTime();
+      updateBreathLabel();
+      setInterval(updateTime, 10000);
+      setInterval(updateBreathLabel, 250);
+
+      function openModal() {
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+      }
+
+      function closeModal() {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+      }
+
+      startMinuteButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          openModal();
+        });
+      });
+
+      modal.addEventListener("click", (event) => {
+        if (event.target.matches("[data-close-modal='true']")) closeModal();
+      });
+
+      closeModalButton.addEventListener("click", closeModal);
+
+      androidOption.addEventListener("click", () => {
+        closeModal();
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeModal();
+      });
+    </script>
+  </body>
+</html>
